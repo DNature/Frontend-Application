@@ -31,12 +31,23 @@ const updateProduct = async (data: any) => {
 		}
 };
 
+const getConfiguration = async () => {
+  const APP_ID = process.env.REACT_APP_APP_ID ?? 1
+  try {
+    const response = await instance.get(`/configuration/${APP_ID}/`)
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+
 
 const api = {
   getProduct,
   getTlr,
   updateProduct,
-
+  getConfiguration
 }
 
 export default api

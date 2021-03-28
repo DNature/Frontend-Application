@@ -21,7 +21,7 @@ const initialState: ProductState = {
 }
 
 export const tlrSlice = createSlice({
-  name: 'product',
+  name: 'tlr',
   initialState,
   reducers: {
     getTlr: (state, {payload}) => {

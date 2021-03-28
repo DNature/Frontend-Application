@@ -1,26 +1,36 @@
 import React from 'react';
 import { css } from '@emotion/css';
 import { Link } from '@reach/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchConfiguration, selectConfig } from '../app';
 
-const header = css`
-	position: sticky;
-	top: 0;
-	width: 100%;
-	z-index: 10;
-	background-color: #272e71;
-	padding: 1rem 0;
-	display: flex;
-	justify-content: center;
-	.logo {
-		width: 150px;
-	}
-`;
+export const Header = () => {
+	const dispatch = useDispatch();
+	const { config } = useSelector(selectConfig);
 
-export const Header: React.FC = () => {
+	React.useEffect(() => {
+		// conditionally fetch config
+		dispatch(fetchConfiguration());
+	}, [dispatch]);
+
+	const header = css`
+		position: sticky;
+		top: 0;
+		width: 100%;
+		z-index: 10;
+		background-color: ${config.mainColor};
+		padding: 1rem 2rem;
+		display: flex;
+		.logo {
+			width: 150px;
+			filter: invert(900%) brightness(900%) contrast(500%);
+		}
+	`;
+
 	return (
 		<div className={header}>
 			<Link to='/'>
-				<img src='/images/logo.svg' alt='innoloft' className={'logo'} />
+				<img src={config.logo} alt='innoloft' className={'logo'} />
 			</Link>
 		</div>
 	);

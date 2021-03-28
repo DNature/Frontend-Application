@@ -1,6 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProduct, selectProduct } from '../app';
+import {
+	fetchConfiguration,
+	fetchProduct,
+	selectConfig,
+	selectProduct,
+} from '../app';
 import { RouteComponentProps } from '@reach/router';
 import { css } from '@emotion/css';
 import { GoogleMap, Tabs } from '../components';
@@ -73,11 +78,13 @@ const aside = css`
 	}
 `;
 
-export const Product = (props: RouteComponentProps) => {
+export const Product: React.FC<RouteComponentProps> = (props) => {
 	const dispatch = useDispatch();
 	const { product, loading, failed } = useSelector(selectProduct);
+	const { config } = useSelector(selectConfig);
 
 	React.useEffect(() => {
+		dispatch(fetchConfiguration());
 		// conditionally fetch product
 		if (!product) {
 			dispatch(fetchProduct());
@@ -103,16 +110,21 @@ export const Product = (props: RouteComponentProps) => {
 					<div className='badge'>{type.name}</div>
 				</div>
 
-				<Tabs product={product} />
+				<Tabs color={config.mainColor} product={product} />
 			</main>
 			<aside className={aside}>
-				<div className='user'>
-					<img src={product.user.profilePicture} alt={product.user.firstName} />
-					<h3 className='name'>
-						{product.user.firstName} {product.user.lastName}
-					</h3>
-					<p>{product.name}</p>
-				</div>
+				{config.hasUserSection && (
+					<div className='user'>
+						<img
+							src={product.user.profilePicture}
+							alt={product.user.firstName}
+						/>
+						<h3 className='name'>
+							{product.user.firstName} {product.user.lastName}
+						</h3>
+						<p>{product.name}</p>
+					</div>
+				)}
 
 				{product && (
 					<GoogleMap

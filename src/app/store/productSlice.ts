@@ -80,10 +80,8 @@ export const fetchProduct = () => async (dispatch: Dispatch) =>  {
 
 export const updateProduct = (product: any) => async (dispatch: Dispatch) =>  {
   try {
-          // I am supposed to make a POST request here however, I'll just update the state
-
     await api.updateProduct(product)
-  dispatch(updateEntireProduct(product))
+    dispatch(updateEntireProduct(product))
   return true
   } catch (err) {
     throw new Error(err.message)
@@ -95,7 +93,7 @@ export const updateDescription = (description: any) => async (dispatch: Dispatch
 
       dispatch(updateDesc(description))
     } catch (err) {
-      
+      console.error(err)
     }
 }
 

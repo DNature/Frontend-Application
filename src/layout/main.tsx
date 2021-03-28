@@ -22,7 +22,7 @@ const content = css`
 	}
 `;
 
-export const MainLayout: React.FC = ({ children, ...rest }) => {
+export const MainLayout: React.FC<any> = ({ children }) => {
 	return (
 		<>
 			<Header />

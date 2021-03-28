@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	addBusinessModel,
 	addCategory,
+	fetchConfiguration,
 	fetchTlr,
+	selectConfig,
 	selectTlr,
 	updateBusinessModel,
 	updateCategory,
@@ -261,12 +263,19 @@ const AttributesTab: React.FC<{ product: any }> = ({ product }) => {
 	);
 };
 
-const active = css`
-	background: #272e71 !important;
-	color: white !important;
-`;
-
 const TabNavigation = ({ name, isActive, ...rest }: any) => {
+	const dispatch = useDispatch();
+	const { config } = useSelector(selectConfig);
+
+	React.useEffect(() => {
+		// conditionally fetch config
+		dispatch(fetchConfiguration());
+	}, [dispatch]);
+
+	const active = css`
+		background: ${config.mainColor} !important;
+		color: white !important;
+	`;
 	return (
 		<div className={`navItemStyles ${isActive && active}`} {...rest}>
 			{name}

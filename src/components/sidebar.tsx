@@ -1,6 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/css';
 import { Link, LinkProps } from '@reach/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchConfiguration, selectConfig } from '../app';
 
 const navItemStyles = css`
 	color: #3d3d3d;
@@ -32,15 +34,24 @@ const sidebarStyle = css`
 	}
 `;
 
-const active = css`
-	background: #272e71;
-	color: white;
-`;
 const NavItem: React.FC<LinkProps<any>> = ({
 	children,
 	to = '/dashboard',
 	...rest
 }) => {
+	const dispatch = useDispatch();
+	const { config } = useSelector(selectConfig);
+
+	React.useEffect(() => {
+		// conditionally fetch config
+		dispatch(fetchConfiguration());
+	}, [dispatch]);
+
+	const active = css`
+		background: ${config.mainColor};
+		color: white;
+	`;
+
 	return (
 		<Link
 			to={to}

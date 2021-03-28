@@ -26,7 +26,6 @@ const initialState: ConfigurationState = {
     value: false,
     reason: undefined
   },
-  loading: true
 }
 
 export const configurationSlice = createSlice({
@@ -37,7 +36,6 @@ export const configurationSlice = createSlice({
       if(payload){
         state.config = payload
       }
-      state.loading = false;
     },
     getConfigFailure: (state, {payload}) => {
       state.failed = payload
